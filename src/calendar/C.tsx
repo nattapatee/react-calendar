@@ -41,14 +41,18 @@ export interface ICalendarInlineExampleProps {
     firstDayOfWeek?: DayOfWeek;
 }
 
-var bd = 543;
+function bdYear(date: Date) {
+    return date.getFullYear() + 543;
+}
 
 export const buddhismFormat: ICalendarFormatDateCallbacks = {
     formatMonthDayYear: (date: Date, strings: ICalendarStrings) =>
-        strings.months[date.getMonth()] + ' ' + date.getDate() + ', ' + (date.getFullYear() + bd),
-    formatMonthYear: (date: Date, strings: ICalendarStrings) => strings.months[date.getMonth()] + ' ' + (date.getFullYear() + bd),
+        strings.months[date.getMonth()] + ' ' + date.getDate() + ', ' + bdYear(date),
+    formatMonthYear: (date: Date, strings: ICalendarStrings) => strings.months[date.getMonth()] + ' ' + bdYear(date),
     formatDay: (date: Date) => date.getDate().toString(),
-    formatYear: (date: Date) => (date.getFullYear() + bd).toString()
+    formatYear: (date: Date) => {
+        return bdYear(date).toString()
+    }
 };
 
 export class CalendarInlineExample extends React.Component<ICalendarInlineExampleProps, ICalendarInlineExampleState> {
@@ -113,6 +117,7 @@ export class CalendarInlineExample extends React.Component<ICalendarInlineExampl
                     </div>
                 )}
                 <Calendar
+                    yearPickerHidden={true}
                     onSelectDate={this._onSelectDate}
                     dateTimeFormatter={buddhismFormat}
                     onDismiss={this._onDismiss}
